@@ -9,6 +9,25 @@ import java.util.List;
  */
 public class WordleDictionary {
 
-    private List<String> words;
+    private final List<String> words;
 
+    public WordleDictionary(final WordleDictionaryLoader wordleDictionaryLoader, final String nameFile) {
+        words = wordleDictionaryLoader.getWordsFromFile(nameFile);
+    }
+
+    public int getLengthDictionary() {
+        return words.size();
+    }
+
+    public String getTheHiddenWord(final int index) {
+        return words.get(index);
+    }
+
+    public boolean isWordInDictionary(final String word) {
+        return words.contains(word);
+    }
+
+    public List<String> getWords() {
+        return words;
+    }
 }
