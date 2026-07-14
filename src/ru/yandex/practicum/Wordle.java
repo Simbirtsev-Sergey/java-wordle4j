@@ -7,11 +7,7 @@ import ru.yandex.practicum.exception.WordNotFoundInDictionary;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Wordle {
     private static final String FILE_NAME = "words_ru.txt";
@@ -39,7 +35,7 @@ public class Wordle {
                 System.out.println("Ответ: " + wordleGame.getAnswer());
 
                 // Вызвать игровой метод
-                game(wordleGame, wordleDictionary, writer, patterns);
+                game(wordleGame, wordleDictionary, writer);
 
                 // Вывести результат
                 resultGame(wordleGame);
@@ -52,45 +48,50 @@ public class Wordle {
         }
     }
 
-    public static void game(WordleGame wordleGame, WordleDictionary wordleDictionary, final PrintWriter writer,
-                            ArrayList<String> patterns) {
+    public static void game(WordleGame wordleGame, WordleDictionary wordleDictionary, final PrintWriter writer) {
         while (wordleGame.hasStepsLeft()) {
             String word;
             System.out.println("Введите слово: ");
             try {
-              //  word = scanner.nextLine();
+                Hint hints = new Hint(wordleDictionary, patterns, listInputWords);
+
+                List<String> possibleLetters = hints.generationHint();
 
                 while ((word = scanner.nextLine()).isBlank()) {
-
-                    if (word.isBlank()) {
-                        Hint hint = new Hint(wordleDictionary, patterns, listInputWords);
-                        List<String> possibleLetters = hint.generationHint();
-                        System.out.println(possibleLetters);
+                    if (possibleLetters.isEmpty()) {
+                        System.out.println("Все подсказки использованы");
                     } else {
-                        if (word.length() != 5) {
-                            throw new WordNoFitTheSize("Введенное слово не состоит из 5 букв", word);
-                        }
-
-                        if (!wordleGame.isCorrectInput(word)) {
-                            throw new WordEnteredInWrongLanguage("Вы ввели недопустимые символы", word);
-                        }
-
-                        if (!wordleDictionary.isWordInDictionary(word)) {
-                            throw new WordNotFoundInDictionary("Данного слова нет в словаре", word);
-                        }
-
-                        wordleGame.incrementSteps();
-                        listInputWords.add(word);
-
-                        if (wordleGame.isTheWordTheAnswer(word)) {
-                            isGameOver = true;
-                            return;
-                        }
-                        String pattern = wordleGame.getPattern(word);
-                        System.out.println(pattern);
-                        patterns.add(pattern);
+                        Random random = new Random();
+                        int ind = random.nextInt(possibleLetters.size());
+                        final String hint = possibleLetters.get(ind);
+                        possibleLetters.remove(ind);
+                        System.out.println(String.format("Подсказка: %s", hint));
                     }
                 }
+
+                if (word.length() != 5) {
+                    throw new WordNoFitTheSize("Введенное слово не состоит из 5 букв", word);
+                }
+
+                if (!wordleGame.isCorrectInput(word)) {
+                    throw new WordEnteredInWrongLanguage("Вы ввели недопустимые символы", word);
+                }
+
+                if (!wordleDictionary.isWordInDictionary(word)) {
+                    throw new WordNotFoundInDictionary("Данного слова нет в словаре", word);
+                }
+
+                wordleGame.incrementSteps();
+                listInputWords.add(word);
+
+                if (wordleGame.isTheWordTheAnswer(word)) {
+                    isGameOver = true;
+                    return;
+                }
+
+                String pattern = wordleGame.getPattern(word);
+                System.out.println(pattern);
+                patterns.add(pattern);
 
             } catch (WordEnteredInWrongLanguage exception) {
                 System.out.println(exception.getMessage());
@@ -106,7 +107,6 @@ public class Wordle {
             }
         }
     }
-
 
     public static void resultGame(WordleGame wordleGame) {
         if (isGameOver) {

@@ -1,16 +1,13 @@
 package ru.yandex.practicum;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Hint {
-    private static final List<String> appropriateWords = new ArrayList<>();
 
     private final WordleDictionary wordleDictionary;
     private final List<String> patterns;
     private final List<String> listInputWords;
+    private static final List<Character> lettersExactlyPresent = new ArrayList<>();
 
     public Hint(final WordleDictionary wordleDictionary, final List<String> patterns,
                 final List<String> listInputWords) {
@@ -35,16 +32,18 @@ public class Hint {
             }
         }
 
+        // Генерируем массив с русскими буквами (за исключением буквы ё)
+        List<Character> letters = new ArrayList<>();
+        for (int codeRussianLetter = 1072; codeRussianLetter < 1104; ++codeRussianLetter) {
+            letters.add((char) codeRussianLetter);
+        }
+
         // Какие буквы могут быть на каждой позиции
         // Если создается пустой ArrayList, то программа уже знает какая буква будет на этом месте
         for (int i = 0; i < 5; ++i) {
             if (mask.charAt(i) != '*') {
                 possibleLetters.put(i, new ArrayList<>());
             } else {
-                List<Character> letters = new ArrayList<>();
-                for (int j = 1072; j < 1104; ++j) {
-                    letters.add((char) j);
-                }
                 possibleLetters.put(i, new ArrayList<>(letters));
             }
         }
@@ -65,10 +64,12 @@ public class Hint {
 
                 if (patterns.get(numberPattern).charAt(numberWord) == '^') {
                     possibleLetters.get(numberWord).remove(character);
+                    lettersExactlyPresent.add(character);
                 }
             }
         }
 
+        final List<String> appropriateWords = new ArrayList<>();
         List<String> words = wordleDictionary.getWords();
         for (String word : words) {
             if (matchesPattern(word, mask, possibleLetters)) {
@@ -90,11 +91,12 @@ public class Hint {
                     return false;
                 }
             }
+            for (Character character : lettersExactlyPresent) {
+                if (!word.contains(character.toString())) {
+                    return false;
+                }
+            }
         }
         return true;
-    }
-
-    public String getWordHint() {
-        return "";// appropriateWords
     }
 }
