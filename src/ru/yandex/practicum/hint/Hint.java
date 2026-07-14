@@ -1,4 +1,6 @@
-package ru.yandex.practicum;
+package ru.yandex.practicum.hint;
+
+import ru.yandex.practicum.wordle.WordleDictionary;
 
 import java.util.*;
 

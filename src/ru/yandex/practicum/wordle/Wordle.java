@@ -1,5 +1,6 @@
-package ru.yandex.practicum;
+package ru.yandex.practicum.wordle;
 
+import ru.yandex.practicum.hint.Hint;
 import ru.yandex.practicum.exception.WordEnteredInWrongLanguage;
 import ru.yandex.practicum.exception.WordNoFitTheSize;
 import ru.yandex.practicum.exception.WordNotFoundInDictionary;

@@ -1,4 +1,4 @@
-package ru.yandex.practicum;
+package ru.yandex.practicum.wordle;
 
 import java.util.HashMap;
 import java.util.Map;

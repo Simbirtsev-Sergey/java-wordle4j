@@ -3,6 +3,8 @@ package ru.yandex.practicum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.wordle.WordleDictionary;
+import ru.yandex.practicum.wordle.WordleGame;
 
 import java.io.PrintWriter;
 import java.util.List;
