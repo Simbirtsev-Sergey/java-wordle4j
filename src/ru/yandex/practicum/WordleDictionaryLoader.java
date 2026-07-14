@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class WordleDictionaryLoader {
 
     PrintWriter writer;
@@ -31,4 +32,4 @@ public class WordleDictionaryLoader {
         }
         return words;
     }
-} // Может просто передать PrintWriter в метод?
+}

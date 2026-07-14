@@ -1,21 +1,15 @@
 package ru.yandex.practicum;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.io.PrintWriter;
-/*
-в этом классе нужны методы, которые
-    предложат слово-подсказку с учётом всего, что вводил пользователь ранее
-    не забудьте про специальные типы исключений для игровых и неигровых ошибок
- */
 
 
 public class WordleGame {
 
     // Правильный ответ
-    private final String answer;
+    private String answer;
 
     // Сколько попыток было использовано
     private int steps;
@@ -26,16 +20,15 @@ public class WordleGame {
     // log- файл
     PrintWriter writer;
 
-    public WordleGame(WordleDictionary dictionary, PrintWriter writer) {
+    public WordleGame(final WordleDictionary dictionary, final PrintWriter writer) {
         steps = 0;
         this.dictionary = dictionary;
         answer = dictionary.getTheHiddenWord(new Random().nextInt(dictionary.getLengthDictionary()));
         this.writer = writer;
     }
 
-
     // Является ли слово ответом?
-    public boolean isTheWordTheAnswer(String word) {
+    public boolean isTheWordTheAnswer(final String word) {
         return answer.equals(word);
     }
 
@@ -45,7 +38,7 @@ public class WordleGame {
     }
 
     // Проверка на использование кириллицы
-    public boolean isCorrectInput(String wordExtended) {
+    public boolean isCorrectInput(final String wordExtended) {
         StringBuilder word = new StringBuilder(wordExtended);
         for (int letter = 0; letter < 5; ++letter) {
             if (!((int) 'а' <=  (int) word.charAt(letter) && (int) word.charAt(letter) <= 'я')) {
@@ -55,7 +48,7 @@ public class WordleGame {
         return true;
     }
 
-    public String getPattern(String enteredWord) {
+    public String getPattern(final String enteredWord) {
         Map<Character, Integer> accountingSymbols = new HashMap<>();
         StringBuilder pattern = new StringBuilder("     ");
 
@@ -106,5 +99,10 @@ public class WordleGame {
 
     public int getSteps() {
         return steps;
+    }
+
+    // Метод нужен для тестов
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

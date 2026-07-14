@@ -31,8 +31,8 @@ public class Wordle {
                 // Создать игру
                 WordleGame wordleGame = new WordleGame(wordleDictionary, writer);
 
-                // Ответ УДАЛИТЬ!!!!!!!!
-                System.out.println("Ответ: " + wordleGame.getAnswer());
+                // Вывод ответа
+                // System.out.println("Ответ: " + wordleGame.getAnswer());
 
                 // Вызвать игровой метод
                 game(wordleGame, wordleDictionary, writer);
@@ -48,7 +48,8 @@ public class Wordle {
         }
     }
 
-    public static void game(WordleGame wordleGame, WordleDictionary wordleDictionary, final PrintWriter writer) {
+    public static void game(final WordleGame wordleGame, final WordleDictionary wordleDictionary,
+                            final PrintWriter writer) {
         while (wordleGame.hasStepsLeft()) {
             String word;
             System.out.println("Введите слово: ");
@@ -108,7 +109,7 @@ public class Wordle {
         }
     }
 
-    public static void resultGame(WordleGame wordleGame) {
+    public static void resultGame(final WordleGame wordleGame) {
         if (isGameOver) {
             System.out.println("Вы угадали слово!");
             System.out.println(String.format("Вам понадобилось %d попыток", wordleGame.getSteps()));
