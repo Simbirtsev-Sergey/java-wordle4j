@@ -41,7 +41,7 @@ public class WordleGame {
     public boolean isCorrectInput(final String wordExtended) {
         StringBuilder word = new StringBuilder(wordExtended);
         for (int letter = 0; letter < 5; ++letter) {
-            if (!((int) 'а' <=  (int) word.charAt(letter) && (int) word.charAt(letter) <= 'я')) {
+            if (!((int) 'а' <= (int) word.charAt(letter) && (int) word.charAt(letter) <= 'я')) {
                 return false;
             }
         }

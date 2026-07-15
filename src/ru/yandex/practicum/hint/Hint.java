@@ -69,7 +69,7 @@ public class Hint {
     // Какие буквы могут быть на каждой позиции
     // Если создается пустой ArrayList, то программа уже знает какая буква будет на этом месте
     public void fillInEachPosition(final Map<Integer, ArrayList<Character>> possibleLetters, final StringBuilder mask,
-                                    final List<Character> letters) {
+                                   final List<Character> letters) {
         for (int i = 0; i < 5; ++i) {
             if (mask.charAt(i) != '*') {
                 possibleLetters.put(i, new ArrayList<>());
@@ -102,7 +102,7 @@ public class Hint {
         }
     }
 
-        public void filteringWords(final List<String> words, final StringBuilder mask, final Map<Integer,
+    public void filteringWords(final List<String> words, final StringBuilder mask, final Map<Integer,
             ArrayList<Character>> possibleLetters, final List<String> appropriateWords) {
         for (String word : words) {
             if (matchesPattern(word, mask, possibleLetters)) {
@@ -116,7 +116,7 @@ public class Hint {
             ArrayList<Character>> possibleLetters) {
         for (int position = 0; position < 5; ++position) {
             if (mask.charAt(position) == '*') {
-                if (!possibleLetters.get(position).contains(word.charAt(position))){
+                if (!possibleLetters.get(position).contains(word.charAt(position))) {
                     return false;
                 }
             } else {

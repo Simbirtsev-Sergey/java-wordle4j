@@ -40,25 +40,25 @@ public class WordleGameTest {
     }
 
     @Test
-    public void patternWithPlusesAndMinuses(){
+    public void patternWithPlusesAndMinuses() {
         wordleGame.setAnswer("ротор");
         assertEquals("-++++", wordleGame.getPattern("мотор"));
     }
 
     @Test
-    public void patternWhereAllMinuses(){
+    public void patternWhereAllMinuses() {
         wordleGame.setAnswer("абзац");
         assertEquals("-----", wordleGame.getPattern("ротор"));
     }
 
     @Test
-    public void patternWithPlusesAndCarets(){
+    public void patternWithPlusesAndCarets() {
         wordleGame.setAnswer("озеро");
         assertEquals("+-^--", wordleGame.getPattern("охота"));
     }
 
     @Test
-    public void patternWithCarets(){
+    public void patternWithCarets() {
         wordleGame.setAnswer("озеро");
         assertEquals("--^--", wordleGame.getPattern("абзац"));
     }

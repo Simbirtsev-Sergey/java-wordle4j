@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WordleDictionaryTest {
 
     private static WordleDictionary wordleDictionary;
+
     @BeforeEach
     public void beforeEach() {
         wordleDictionary = new WordleDictionary(List.of("гузка", "ряска", "турка", "ангоб", "башня", "ухарь", "динас",
