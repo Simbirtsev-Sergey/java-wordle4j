@@ -1,7 +1,7 @@
 package ru.yandex.practicum.exception;
 
 public class WordNoFitTheSize extends Exception {
-    
+
     String word;
 
     public WordNoFitTheSize(String message, String word) {
