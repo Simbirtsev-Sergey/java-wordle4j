@@ -26,7 +26,7 @@ public class HintTest {
     }
 
     @Test
-    public void buildMaskFillsKnownLettersAndIgnoresCaret() {
+    public void buildMaskFillsPluses() {
         hint = new Hint(wordleDictionary, List.of("---++", "+---^"), List.of("карта", "озеро"));
         StringBuilder mask = new StringBuilder("*****");
         hint.buildMask(mask);
@@ -34,7 +34,7 @@ public class HintTest {
     }
 
     @Test
-    public void buildMaskFillsKnownLettersAndCaret() {
+    public void buildMaskWithoutPluses() {
         hint = new Hint(wordleDictionary, List.of("-^---"), List.of("город"));
         StringBuilder mask = new StringBuilder("*****");
         hint.buildMask(mask);
@@ -42,7 +42,7 @@ public class HintTest {
     }
 
     @Test
-    public void buildMaskFillsOnlyKnownLetters() {
+    public void buildMaskAllPluses() {
         hint = new Hint(wordleDictionary, List.of("+++++"), List.of("охота"));
         StringBuilder mask = new StringBuilder("*****");
         hint.buildMask(mask);
@@ -50,7 +50,7 @@ public class HintTest {
     }
 
     @Test
-    public void listWithRussianLetters_contains32Letters() {
+    public void russianLettersHas32() {
         hint = new Hint(wordleDictionary, List.of("+++++"), List.of("охота"));
         List<Character> letters = hint.listWithRussianLetters();
 
@@ -62,7 +62,7 @@ public class HintTest {
     }
 
     @Test
-    void fillInEachPosition_allUnknown_everyPositionGetsFullAlphabet() {
+    void fillPositionsAllUnknown() {
         Hint hint = new Hint(wordleDictionary, List.of(), List.of()); // аргументы конструктора тут не важны
         Map<Integer, ArrayList<Character>> possibleLetters = new HashMap<>();
         StringBuilder mask = new StringBuilder("*****");
@@ -77,7 +77,7 @@ public class HintTest {
     }
 
     @Test
-    void fillInEachPosition_allKnown_everyPositionIsEmpty() {
+    void fillPositionsAllKnown() {
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         Map<Integer, ArrayList<Character>> possibleLetters = new HashMap<>();
         StringBuilder mask = new StringBuilder("карта");        // ни одной '*'
@@ -91,7 +91,7 @@ public class HintTest {
     }
 
     @Test
-    void fillInEachPosition_mixedMask_knownEmpty_unknownFull() {
+    void fillPositionsMixed() {
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         Map<Integer, ArrayList<Character>> possibleLetters = new HashMap<>();
         StringBuilder mask = new StringBuilder("о**та");        // известны позиции 0, 3, 4
@@ -107,7 +107,7 @@ public class HintTest {
     }
 
     @Test
-    void fillInEachPosition_positionsAreIndependentCopies() {
+    void fillPositionsAreCopies() {
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         Map<Integer, ArrayList<Character>> possibleLetters = new HashMap<>();
         StringBuilder mask = new StringBuilder("*****");
@@ -124,7 +124,7 @@ public class HintTest {
     }
 
     @Test
-    void excludeLetterEverywhere_minusRemovesLetterFromAllPositions() {
+    void excludeMinusFromAllPositions() {
         // '-' на 'а' (позиция 0) должен убрать 'а' из списков всех позиций
         Hint hint = new Hint(wordleDictionary, List.of("-++++"), List.of("абвгд"));
         Map<Integer, ArrayList<Character>> possibleLetters = smallAlphabetMap();
@@ -138,7 +138,7 @@ public class HintTest {
     }
 
     @Test
-    void excludeLetterEverywhere_caretRemovesLetterOnlyFromThatPosition() {
+    void excludeCaretFromOnePosition() {
         // '^' на 'а' (позиция 0) убирает 'а' только с позиции 0, на остальных она остаётся
         Hint hint = new Hint(wordleDictionary, List.of("^++++"), List.of("абвгд"));
         Map<Integer, ArrayList<Character>> possibleLetters = smallAlphabetMap();
@@ -151,7 +151,7 @@ public class HintTest {
     }
 
     @Test
-    void filteringWords_keepsOnlyWordsMatchingMask() {
+    void filterWordsByMask() {
         // маска "о**та": известны позиции 0, 3, 4 — проходят только слова с о_?_?_т_а
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         StringBuilder mask = new StringBuilder("о**та");
@@ -165,7 +165,7 @@ public class HintTest {
     }
 
     @Test
-    void matchesPattern_returnsTrueWhenKnownAndAllowedLettersFit() {
+    void matchesWhenLettersFit() {
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         StringBuilder mask = new StringBuilder("о**та");
         Map<Integer, ArrayList<Character>> possibleLetters = fullAlphabetMap(hint);
@@ -174,7 +174,7 @@ public class HintTest {
     }
 
     @Test
-    void matchesPattern_returnsFalseWhenGreenPositionMismatch() {
+    void matchesFailsOnGreenMismatch() {
         // на позиции 0 маска требует 'о', а в слове стоит 'к'
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         StringBuilder mask = new StringBuilder("о**та");
@@ -184,7 +184,7 @@ public class HintTest {
     }
 
     @Test
-    void matchesPattern_returnsFalseWhenLetterNotAllowedAtUnknownPosition() {
+    void matchesFailsOnForbiddenLetter() {
         // все позиции неизвестны, но 'к' запрещена на позиции 0
         Hint hint = new Hint(wordleDictionary, List.of(), List.of());
         StringBuilder mask = new StringBuilder("*****");
@@ -196,7 +196,7 @@ public class HintTest {
     }
 
     @Test
-    void matchesPattern_returnsFalseWhenWordMissingRequiredPresentLetter() {
+    void matchesFailsWhenMissingLetter() {
         // '^' на 'с' в слове "слива" делает 'с' обязательной в слове-кандидате
         Hint hint = new Hint(wordleDictionary, List.of("^----"), List.of("слива"));
         // прогоняем excludeLetterEverywhere только чтобы заполнить список обязательных букв ('с')
@@ -210,7 +210,7 @@ public class HintTest {
     }
 
     @Test
-    void generationHint_allPlus_returnsExactWord() {
+    void hintReturnsExactWord() {
         // все буквы угаданы на своих местах → подходит ровно одно слово словаря
         Hint hint = new Hint(wordleDictionary, List.of("+++++"), List.of("охота"));
 
@@ -218,7 +218,7 @@ public class HintTest {
     }
 
     @Test
-    void generationHint_filtersByMaskPresentAndExcludedLetters() {
+    void hintFiltersByConstraints() {
         // "улика" + "^--++": маска "***ка", 'у' обязательна (^), 'л' и 'и' исключены (-)
         // из словаря подходят слова, оканчивающиеся на "ка" и содержащие 'у': гузка, турка
         Hint hint = new Hint(wordleDictionary, List.of("^--++"), List.of("улика"));

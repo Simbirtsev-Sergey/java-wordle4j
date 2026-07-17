@@ -45,14 +45,14 @@ public class Hint {
     // На основе паттернов, определяем на каких позициях мы знаем точные буквы
     // т.е. ищем "плюсики"
     public void buildMask(StringBuilder mask) {
-        for (int i = 0; i < patterns.size(); ++i) {
+        for (int position = 0; position < patterns.size(); ++position) {
             int startIndex = 0;
-            String pattern = patterns.get(i);
+            String pattern = patterns.get(position);
             while ((startIndex = pattern.indexOf("+", startIndex)) != -1) {
                 int ind = pattern.indexOf("+", startIndex);
                 startIndex++;
 
-                mask.setCharAt(ind, listInputWords.get(i).charAt(ind));
+                mask.setCharAt(ind, listInputWords.get(position).charAt(ind));
             }
         }
     }
@@ -70,11 +70,11 @@ public class Hint {
     // Если создается пустой ArrayList, то программа уже знает какая буква будет на этом месте
     public void fillInEachPosition(final Map<Integer, ArrayList<Character>> possibleLetters, final StringBuilder mask,
                                    final List<Character> letters) {
-        for (int i = 0; i < 5; ++i) {
-            if (mask.charAt(i) != '*') {
-                possibleLetters.put(i, new ArrayList<>());
+        for (int position = 0; position < 5; ++position) {
+            if (mask.charAt(position) != '*') {
+                possibleLetters.put(position, new ArrayList<>());
             } else {
-                possibleLetters.put(i, new ArrayList<>(letters));
+                possibleLetters.put(position, new ArrayList<>(letters));
             }
         }
     }
